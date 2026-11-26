@@ -30,20 +30,8 @@
   force = true
 
 [[redirects]]
-  from = "/panel/do-exercises"
-  to = "/.netlify/functions/do-exercises"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/panel/get-answers"
-  to = "/.netlify/functions/get-answers"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/dashboard"
-  to = "/dashboard.html"
+  to = "/"
   status = 200
   force = true
 

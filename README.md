@@ -20,3 +20,6 @@ có thể cần quyền truy cập, cấu hình URL hoặc thay đổi giao th�
 - `public/assets/video.mp4`: video từ File 2.
 - `netlify/functions/*`: API/backend từ File 1.
 - `netlify.toml`: routes Netlify.
+
+
+Dashmenu cập nhật: `public/dashboard.html` theo phong cách OLM.VN, khung video, danh sách bài qua API khi tương thích và công cụ ghi chú. Các endpoint tự động lấy đáp án/nộp bài đã tắt. Cookie phiên chỉ được xử lý ở backend HttpOnly.
