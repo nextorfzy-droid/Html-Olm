@@ -1,5 +1,16 @@
 import { getSession, setSessionCookie, json } from './_shared.mjs';
-export const BASE = (process.env.OLM_PANEL_BASE_URL || 'https://olm.shopntt.bond').replace(/\/$/, '');
+const configuredBase = (process.env.OLM_PANEL_BASE_URL || '').trim();
+if (configuredBase) {
+  const parsed = new URL(configuredBase);
+  if (parsed.protocol !== 'https:') throw new Error('OLM_PANEL_BASE_URL must use HTTPS.');
+  if (parsed.hostname !== 'olm.vn' && !parsed.hostname.endsWith('.olm.vn')) {
+    throw new Error('Only the official olm.vn domain is accepted by this default adapter. Use a separately reviewed integration for other hosts.');
+  }
+}
+export const BASE = configuredBase.replace(/\/$/, '');
+function ensureConfigured() {
+  if (!BASE) throw new Error('Chưa cấu hình OLM_PANEL_BASE_URL. Hãy xác minh API chính thức trước khi đăng nhập.');
+}
 function cookiesFrom(headers) {
   if (typeof headers.getSetCookie === 'function') return headers.getSetCookie();
   const value = headers.get('set-cookie');
@@ -16,7 +27,7 @@ function merge(old = {}, lines = []) {
 }
 export const cookieHeader = cookies => Object.entries(cookies || {}).map(([k, v]) => `${k}=${v}`).join('; ');
 export async function upstream(path, { method = 'GET', cookies = {}, body, headers = {} } = {}) {
-  const h = new Headers(headers);
+  ensureConfigured();\n  const h = new Headers(headers);
   const cookie = cookieHeader(cookies);
   if (cookie) h.set('cookie', cookie);
   const response = await fetch(BASE + path, { method, headers: h, body, redirect: 'manual' });
