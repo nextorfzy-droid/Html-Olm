@@ -27,7 +27,8 @@ function merge(old = {}, lines = []) {
 }
 export const cookieHeader = cookies => Object.entries(cookies || {}).map(([k, v]) => `${k}=${v}`).join('; ');
 export async function upstream(path, { method = 'GET', cookies = {}, body, headers = {} } = {}) {
-  ensureConfigured();\n  const h = new Headers(headers);
+  ensureConfigured();
+  const h = new Headers(headers);
   const cookie = cookieHeader(cookies);
   if (cookie) h.set('cookie', cookie);
   const response = await fetch(BASE + path, { method, headers: h, body, redirect: 'manual' });
